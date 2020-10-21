@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {View, StyleSheet, TextInput, Button} from "react-native";
+import {View, StyleSheet, TextInput, Button, Alert} from "react-native";
 
 type PropsType = {
     onSubmit: (title: string) => void
@@ -14,7 +14,7 @@ const AddTodo = (props: PropsType) => {
             props.onSubmit(value.trim());
             setValue("")
         } else {
-            alert("Enter Value")
+            Alert.alert("Enter Value")
         }
     }
 
@@ -25,7 +25,7 @@ const AddTodo = (props: PropsType) => {
     return (
         <View style={styles.block}>
             <TextInput style={styles.input} onChangeText={changeText} value={value}
-                       placeholder={"Enter Todolist name"}/>
+                       placeholder={"Enter Todolist name"} autoCorrect={false} autoCapitalize={"none"} />
             <Button title={"Add"} onPress={pressHandler}/>
         </View>
     )

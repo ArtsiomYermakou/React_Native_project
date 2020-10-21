@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import NavBar from "./src/Navbar";
-import AddTodo from "./src/AddTodo";
-import Todo from "./src/Todo";
+import {StyleSheet, View, ScrollView} from 'react-native';
+import NavBar from "./src/components/Navbar";
+import MainScreen from "./src/screens/MainScreen";
+import TodoScreen from "./src/screens/TodoScreen";
 
 export type TodosType = {
     id: string
@@ -10,6 +10,7 @@ export type TodosType = {
 }
 
 export default function App() {
+    const [todoId, setTodoId] = useState(null);
     const [todos, setTodos] = useState<Array<TodosType>>([]);
 
     const addTodo = (title: string) => {
@@ -18,18 +19,23 @@ export default function App() {
         }])
     }
 
+    const removeTodo = (id: string) => {
+        setTodos(prevState => prevState.filter(t => t.id !== id))
+    }
+
+    let content = <MainScreen addTodo={addTodo} todos={todos} removeTodo={removeTodo}/>
+
+    if(todoId){
+        content = <TodoScreen />
+    }
+
     return (
-        <View>
+        <ScrollView>
             <NavBar title={"Todo App"}/>
             <View style={styles.container}>
-                <AddTodo onSubmit={addTodo}/>
-
-                <View>
-                    {todos.map((todos: TodosType) => <Todo key={todos.id} todolist={todos}/>
-                    )}
-                </View>
+                {content}
             </View>
-        </View>
+        </ScrollView>
     );
 }
 
