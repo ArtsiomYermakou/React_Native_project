@@ -8,6 +8,7 @@ type MainScreenPropsType = {
     addTodo: (title: string) => void
     todos: Array<TodosType>
     removeTodo: (id: string) => void
+    openTodo: any
 }
 
 const MainScreen = (props: MainScreenPropsType) => {
@@ -17,7 +18,7 @@ const MainScreen = (props: MainScreenPropsType) => {
             <FlatList
                 keyExtractor={item => item.id.toString()}
                 data={props.todos}
-                renderItem={({item}) => (<Todo todolist={item} onRemove={props.removeTodo}/>)}
+                renderItem={({item}) => (<Todo onOpen={props.openTodo} todolist={item} onRemove={props.removeTodo}/>)}
             />
         </View>
     )

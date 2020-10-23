@@ -5,6 +5,7 @@ import {TodosType} from "../../App";
 type PropsType = {
     todolist: TodosType
     onRemove: (id: string) => void
+    onOpen: (id: string) => void
 }
 
 const Todo = (props: PropsType) => {
@@ -14,7 +15,7 @@ const Todo = (props: PropsType) => {
     }
 
     return (
-        <TouchableOpacity activeOpacity={0.5} onPress={() => {console.log("Pressed", props.todolist.id)}} onLongPress={longPressHandler}>
+        <TouchableOpacity activeOpacity={0.5} onPress={() => props.onOpen(props.todolist.id)} onLongPress={longPressHandler}>
             <View style={styles.todo}>
                 <Text>{props.todolist.title}</Text>
             </View>

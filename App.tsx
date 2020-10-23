@@ -11,7 +11,11 @@ export type TodosType = {
 
 export default function App() {
     const [todoId, setTodoId] = useState(null);
-    const [todos, setTodos] = useState<Array<TodosType>>([]);
+    const [todos, setTodos] = useState<Array<TodosType>>([
+        {id: "1", title: "Artem test 1"},
+        {id: "2", title: "Artem test 2"},
+        {id: "3", title: "Artem test 4"},
+    ]);
 
     const addTodo = (title: string) => {
         setTodos((prev: Array<TodosType>) => [...prev, {
@@ -23,10 +27,16 @@ export default function App() {
         setTodos(prevState => prevState.filter(t => t.id !== id))
     }
 
-    let content = <MainScreen addTodo={addTodo} todos={todos} removeTodo={removeTodo}/>
+    let content = <MainScreen
+        openTodo={(id: any) => {setTodoId(id)}}
+        addTodo={addTodo}
+        todos={todos}
+        removeTodo={removeTodo}
+    />
 
-    if(todoId){
-        content = <TodoScreen />
+    if (todoId) {
+        const selectedTodo = todos.find((todo) => todo.id === todoId)
+        content = <TodoScreen todo={selectedTodo} goBack={() => setTodoId(null)}/>
     }
 
     return (
