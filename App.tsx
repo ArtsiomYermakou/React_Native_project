@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, ScrollView} from 'react-native';
-import NavBar from "./src/components/Navbar";
-import MainScreen from "./src/screens/MainScreen";
-import TodoScreen from "./src/screens/TodoScreen";
+import {View} from 'react-native';
+import {NavBar} from "./src/components/Navbar";
+import {MainScreen} from "./src/screens/MainScreen";
+import {TodoScreen} from "./src/screens/TodoScreen";
+import styled from 'styled-components/native';
 
 export type TodosType = {
     id: string
@@ -10,11 +11,11 @@ export type TodosType = {
 }
 
 export default function App() {
-    const [todoId, setTodoId] = useState(null);
+    const [todoId, setTodoId] = useState<string | null>("2");
     const [todos, setTodos] = useState<Array<TodosType>>([
-        {id: "1", title: "Artem test 1"},
-        {id: "2", title: "Artem test 2"},
-        {id: "3", title: "Artem test 4"},
+        {id: "1", title: "React"},
+        {id: "2", title: "TypeScript"},
+        {id: "3", title: "JavaScript"},
     ]);
 
     const addTodo = (title: string) => {
@@ -27,31 +28,31 @@ export default function App() {
         setTodos(prevState => prevState.filter(t => t.id !== id))
     }
 
-    let content = <MainScreen
-        openTodo={(id: any) => {setTodoId(id)}}
-        addTodo={addTodo}
-        todos={todos}
-        removeTodo={removeTodo}
-    />
+    let content =
+        <MainScreen
+            openTodo={(id: any) => {
+                setTodoId(id)
+            }}
+            addTodo={addTodo}
+            todos={todos}
+            removeTodo={removeTodo}
+        />
 
     if (todoId) {
-        const selectedTodo = todos.find((todo) => todo.id === todoId)
+        const selectedTodo = todos.find(todo => todo.id === todoId)
         content = <TodoScreen todo={selectedTodo} goBack={() => setTodoId(null)}/>
     }
 
     return (
-        <ScrollView>
+        <View>
             <NavBar title={"Todo App"}/>
-            <View style={styles.container}>
+            <AppContainer>
                 {content}
-            </View>
-        </ScrollView>
+            </AppContainer>
+        </View>
     );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        paddingHorizontal: 30,
-        paddingVertical: 20
-    }
-});
+const AppContainer = styled.View`
+      padding: 30px;
+`

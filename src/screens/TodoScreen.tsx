@@ -1,21 +1,33 @@
 import React from "react";
-import {StyleSheet, View, Text, Button} from "react-native"
-import {TodosType} from "../../App";
+import {Text, Button} from "react-native"
+import styled from "styled-components/native";
 
 type TodoScreenPropsType = {
     goBack: () => void
     todo: any
 }
 
-const TodoScreen = (props: TodoScreenPropsType) => {
+export const TodoScreen = (props: TodoScreenPropsType) => {
     return (
-        <View>
+        <>
             <Text>{props.todo.title}</Text>
-            <Button title={"go Back"} onPress={props.goBack}/>
-        </View>
+            <ButtonGroup>
+                <ButtonWrapper>
+                    <Button color={"#757575"} title={"go Back"} onPress={props.goBack}/>
+                </ButtonWrapper>
+                <ButtonWrapper>
+                    <Button color={"#e53935"} title={"delete"} onPress={() => console.log(`To Remove`)}/>
+                </ButtonWrapper>
+            </ButtonGroup>
+        </>
     )
 }
 
-const styles = StyleSheet.create({})
-
-export default TodoScreen;
+const ButtonGroup = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 20px;
+`
+const ButtonWrapper = styled.View`
+  width: 46%;
+`

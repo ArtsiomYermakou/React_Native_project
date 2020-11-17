@@ -1,31 +1,27 @@
 import React from "react";
 import {Text, View, StyleSheet} from "react-native";
+import styled from "styled-components/native";
 
 type PropsType = {
     title: string
 }
 
-const NavBar = (props: PropsType) => {
+export const NavBar = (props: PropsType) => {
     return (
-        <View style={styles.navbar}>
-            <Text style={styles.text}>{props.title}</Text>
-        </View>
+        <Navbar>
+            <TextBlock>{props.title}</TextBlock>
+        </Navbar>
     )
 }
 
-
-const styles = StyleSheet.create({
-    navbar: {
-        height: 70,
-        alignItems: "center",
-        justifyContent: "flex-end",
-        backgroundColor: "#3949ab",
-        paddingBottom: 10
-    },
-    text: {
-        color: "white",
-        fontSize: 20
-    }
-})
-
-export default NavBar;
+const Navbar = styled.View`
+        height: 70px;
+        align-items: center;
+        justify-content: flex-end;
+        background-color: #3949ab;
+        padding-bottom: 10px;
+`
+const TextBlock = styled.Text`
+        color: white;
+        font-size: 20px;
+`
