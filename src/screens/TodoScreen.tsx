@@ -1,22 +1,36 @@
-import React from "react";
-import {Text, Button} from "react-native"
+import React, {useState} from "react";
+import {Button} from "react-native"
 import styled from "styled-components/native";
 import {THEME} from "../theme"
 import {AppCard} from "../components/ui/AppCard";
-import {TodosType} from "../../App";
+import {EditModal} from "../components/EditModal";
 
 type TodoScreenPropsType = {
     goBack: () => void
     todo: any
+    onRemove: (id: string) => void
+    onSave: any
 }
 
-export const TodoScreen: React.FC<TodoScreenPropsType> = ({goBack, todo}) => {
+export const TodoScreen: React.FC<TodoScreenPropsType> = ({goBack, todo, onRemove, onSave}) => {
+
+    const [modal, setModal] = useState(false);
+
+    const saveHandler = (title: string) => {
+        onSave(todo.id, title);
+        setModal(false);
+    }
+
     return (
         <>
+            <EditModal onSave={saveHandler} value={todo.title} onCancel={() => {
+                setModal(false)
+            }} visible={modal}/>
             <Card>
                 <AppCard>
                     <Title>{todo.title}</Title>
                     <Button title={"Change"} onPress={() => {
+                        setModal(true);
                     }}/>
                 </AppCard>
             </Card>
@@ -25,7 +39,7 @@ export const TodoScreen: React.FC<TodoScreenPropsType> = ({goBack, todo}) => {
                     <Button color={THEME.GREY_COLOR} title={"go Back"} onPress={goBack}/>
                 </ButtonWrapper>
                 <ButtonWrapper>
-                    <Button color={THEME.DANGER_COLOR} title={"delete"} onPress={() => console.log(`To Remove`)}/>
+                    <Button color={THEME.DANGER_COLOR} title={"delete"} onPress={() => onRemove(todo.id)}/>
                 </ButtonWrapper>
             </ButtonGroup>
         </>

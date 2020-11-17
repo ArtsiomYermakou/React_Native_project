@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View} from 'react-native';
+import {Alert, View} from 'react-native';
 import {NavBar} from "./src/components/Navbar";
 import {MainScreen} from "./src/screens/MainScreen";
 import {TodoScreen} from "./src/screens/TodoScreen";
@@ -25,21 +25,50 @@ export default function App() {
     }
 
     const removeTodo = (id: string) => {
-        setTodos(prevState => prevState.filter(t => t.id !== id))
+        const todoEl = todos.find(t => t.id === id)
+        Alert.alert(
+            "Element delete",
+            `You sure "${todoEl?.title}" delete?`,
+            [
+                {
+                    text: "Cancel",
+                    style: "cancel"
+                },
+                {
+                    text: "Delete",
+                    style: "destructive",
+                    onPress: () => {
+                        setTodoId(null)
+                        setTodos(prevState => prevState.filter(t => t.id !== id))
+                    }
+                }
+            ],
+            {cancelable: false}
+        );
+    }
+
+    const updateTodo = (id: string, title: string) => {
+        setTodos((prev: any) => prev.map((todo: TodosType) => {
+            if (todo.id === id) {
+                todo.title = title
+            }
+            return todo;
+        }))
     }
 
     let content = <MainScreen
-            openTodo={(id: any) => {
-                setTodoId(id)
-            }}
-            addTodo={addTodo}
-            todos={todos}
-            removeTodo={removeTodo}
-        />
+        openTodo={(id: any) => {
+            setTodoId(id)
+        }}
+        addTodo={addTodo}
+        todos={todos}
+        removeTodo={removeTodo}
+    />
 
     if (todoId) {
         const selectedTodo = todos.find(todo => todo.id === todoId)
-        content = <TodoScreen todo={selectedTodo} goBack={() => setTodoId(null)}/>
+        content =
+            <TodoScreen onSave={updateTodo} onRemove={removeTodo} todo={selectedTodo} goBack={() => setTodoId(null)}/>
     }
 
     return (
