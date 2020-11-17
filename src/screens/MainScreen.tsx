@@ -11,14 +11,14 @@ type MainScreenPropsType = {
     openTodo: (id: string) => void
 }
 
-export const MainScreen = (props: MainScreenPropsType) => {
+export const MainScreen: React.FC<MainScreenPropsType> = ({openTodo, addTodo, todos, removeTodo}) => {
     return (
         <View>
-            <AddTodo onSubmit={props.addTodo}/>
+            <AddTodo onSubmit={addTodo}/>
             <FlatList
                 keyExtractor={item => item.id.toString()}
-                data={props.todos}
-                renderItem={({item}) => (<Todo onOpen={props.openTodo} todolist={item} onRemove={props.removeTodo}/>)}
+                data={todos}
+                renderItem={({item}) => (<Todo onOpen={openTodo} todolist={item} onRemove={removeTodo}/>)}
             />
         </View>
     )

@@ -1,26 +1,26 @@
 import React from "react";
-import { Text, TouchableOpacity} from "react-native";
+import {Text, TouchableOpacity} from "react-native";
 import {TodosType} from "../../App";
 import styled from "styled-components/native";
 
-type PropsType = {
+type TodoPropsType = {
     todolist: TodosType
     onRemove: (id: string) => void
     onOpen: (id: string) => void
 }
 
-export const Todo = (props: PropsType) => {
+export const Todo: React.FC<TodoPropsType> = ({onOpen, todolist, onRemove}) => {
 
     const longPressHandler = () => {
-        props.onRemove(props.todolist.id)
+        onRemove(todolist.id)
     }
 
     return (
         <TouchableOpacity activeOpacity={0.5}
-                          onPress={() => props.onOpen(props.todolist.id)}
+                          onPress={() => onOpen(todolist.id)}
                           onLongPress={longPressHandler}>
             <TodoContainer>
-                <Text>{props.todolist.title}</Text>
+                <Text>{todolist.title}</Text>
             </TodoContainer>
         </TouchableOpacity>
     )

@@ -1,15 +1,15 @@
 import React from "react";
-import {Text, View, StyleSheet} from "react-native";
 import styled from "styled-components/native";
+import {THEME} from "../theme"
 
-type PropsType = {
+type NavBarPropsType = {
     title: string
 }
 
-export const NavBar = (props: PropsType) => {
+export const NavBar: React.FC<NavBarPropsType> = ({title}) => {
     return (
         <Navbar>
-            <TextBlock>{props.title}</TextBlock>
+            <TextBlock>{title}</TextBlock>
         </Navbar>
     )
 }
@@ -18,7 +18,7 @@ const Navbar = styled.View`
         height: 70px;
         align-items: center;
         justify-content: flex-end;
-        background-color: #3949ab;
+        background-color: ${THEME.MAIN_COLOR};
         padding-bottom: 10px;
 `
 const TextBlock = styled.Text`

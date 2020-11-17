@@ -1,18 +1,19 @@
 import React, {useState} from "react";
 import {Button, Alert} from "react-native";
 import styled from "styled-components/native";
+import {THEME} from "../theme";
 
-type PropsType = {
+type AddTodoPropsType = {
     onSubmit: (title: string) => void
 }
 
-const AddTodo = (props: PropsType) => {
+const AddTodo: React.FC<AddTodoPropsType> = ({onSubmit}) => {
 
     const [value, setValue] = useState("")
 
     const pressHandler = () => {
         if (value) {
-            props.onSubmit(value.trim());
+            onSubmit(value.trim());
             setValue("")
         } else {
             Alert.alert("Enter Value")
@@ -44,7 +45,7 @@ const Input = styled.TextInput`
       padding: 10px;
       border-style: solid;
       border-bottom-width: 2px;
-      border-bottom-color: #3949ab;
+      border-bottom-color: ${THEME.MAIN_COLOR};
 `
 
 export default AddTodo;

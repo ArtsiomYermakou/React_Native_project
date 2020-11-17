@@ -28,8 +28,7 @@ export default function App() {
         setTodos(prevState => prevState.filter(t => t.id !== id))
     }
 
-    let content =
-        <MainScreen
+    let content = <MainScreen
             openTodo={(id: any) => {
                 setTodoId(id)
             }}
