@@ -1,5 +1,5 @@
 import React from "react";
-import {Text, TouchableOpacity} from "react-native";
+import {TouchableOpacity} from "react-native";
 import {TodosType} from "../../App";
 import styled from "styled-components/native";
 
@@ -20,7 +20,7 @@ export const Todo: React.FC<TodoPropsType> = ({onOpen, todolist, onRemove}) => {
                           onPress={() => onOpen(todolist.id)}
                           onLongPress={longPressHandler}>
             <TodoContainer>
-                <Text>{todolist.title}</Text>
+                <TextTitle>{todolist.title}</TextTitle>
             </TodoContainer>
         </TouchableOpacity>
     )
@@ -34,6 +34,9 @@ const TodoContainer = styled.View`
         border-color: #eee;
         border-radius: 5px;
         margin-bottom: 10px;
+`
+const TextTitle = styled.Text`
+        
 `
 
 export default Todo;

@@ -1,7 +1,8 @@
 import React, {useState} from "react";
-import {Button, Alert} from "react-native";
+import { Alert, Keyboard} from "react-native";
 import styled from "styled-components/native";
 import {THEME} from "../theme";
+import {AntDesign} from '@expo/vector-icons';
 
 type AddTodoPropsType = {
     onSubmit: (title: string) => void
@@ -15,6 +16,7 @@ const AddTodo: React.FC<AddTodoPropsType> = ({onSubmit}) => {
         if (value) {
             onSubmit(value.trim());
             setValue("")
+            Keyboard.dismiss();
         } else {
             Alert.alert("Enter Value")
         }
@@ -28,7 +30,7 @@ const AddTodo: React.FC<AddTodoPropsType> = ({onSubmit}) => {
         <Block>
             <Input onChangeText={changeText} value={value}
                    placeholder={"Enter Todolist name"} autoCorrect={false} autoCapitalize={"none"}/>
-            <Button title={"Add"} onPress={pressHandler}/>
+            <AntDesign.Button name={"pluscircle"} onPress={pressHandler}>Add</AntDesign.Button>
         </Block>
     )
 }

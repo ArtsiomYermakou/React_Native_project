@@ -11,7 +11,7 @@ export type TodosType = {
 }
 
 export default function App() {
-    const [todoId, setTodoId] = useState<string | null>("2");
+    const [todoId, setTodoId] = useState<string | null>(null);
     const [todos, setTodos] = useState<Array<TodosType>>([
         {id: "1", title: "React"},
         {id: "2", title: "TypeScript"},

@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {Alert, Button, Modal, TextInput} from "react-native";
 import styled from "styled-components/native";
 import {THEME} from "../theme"
+import {AppButton} from "./ui/AppButton";
 
 type EditModalPropsType = {
     visible: boolean
@@ -27,12 +28,11 @@ export const EditModal: React.FC<EditModalPropsType> = ({onCancel, visible, valu
                 <CustomInput value={title} onChangeText={setTitle} maxLength={64} autoCorrect={false}
                              autoCapitalize={"none"} placeholder={"Enter name"}/>
                 <ButtonGroup>
-                    <Button color={THEME.DANGER_COLOR} title={"Cancel"} onPress={() => {
+                    <AppButton color={THEME.DANGER_COLOR} onPress={() => {
                         onCancel()
-                    }}/>
-                    <Button title={"Save"} onPress={saveHandler}/>
+                    }}>Cancel</AppButton>
+                    <AppButton onPress={saveHandler}>Save</AppButton>
                 </ButtonGroup>
-
             </Wrapper>
         </Modal>
     )

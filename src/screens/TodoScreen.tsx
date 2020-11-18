@@ -1,9 +1,11 @@
 import React, {useState} from "react";
-import {Button} from "react-native"
+import {Button, Dimensions} from "react-native"
 import styled from "styled-components/native";
 import {THEME} from "../theme"
 import {AppCard} from "../components/ui/AppCard";
 import {EditModal} from "../components/EditModal";
+import {AppButton} from "../components/ui/AppButton";
+import {FontAwesome, AntDesign} from "@expo/vector-icons"
 
 type TodoScreenPropsType = {
     goBack: () => void
@@ -29,17 +31,22 @@ export const TodoScreen: React.FC<TodoScreenPropsType> = ({goBack, todo, onRemov
             <Card>
                 <AppCard>
                     <Title>{todo.title}</Title>
-                    <Button title={"Change"} onPress={() => {
+                    <AppButton onPress={() => {
                         setModal(true);
-                    }}/>
+                    }}>
+                        <FontAwesome name={"edit"} size={20}/>
+                    </AppButton>
                 </AppCard>
             </Card>
             <ButtonGroup>
                 <ButtonWrapper>
-                    <Button color={THEME.GREY_COLOR} title={"go Back"} onPress={goBack}/>
+                    <AppButton color={THEME.GREY_COLOR} onPress={goBack}>
+                        <AntDesign size={20} name={"back"}/></AppButton>
                 </ButtonWrapper>
                 <ButtonWrapper>
-                    <Button color={THEME.DANGER_COLOR} title={"delete"} onPress={() => onRemove(todo.id)}/>
+                    <AppButton color={THEME.DANGER_COLOR} onPress={() => onRemove(todo.id)}>
+                        <FontAwesome name={"remove"} size={20}/>
+                    </AppButton>
                 </ButtonWrapper>
             </ButtonGroup>
         </>
@@ -52,7 +59,7 @@ const ButtonGroup = styled.View`
   margin-top: 20px;
 `
 const ButtonWrapper = styled.View`
-  width: 46%;
+  width: ${Dimensions.get("window").width > 400 ? 150 : 120};
 `
 const Title = styled.Text`
   font-size: 20px;
