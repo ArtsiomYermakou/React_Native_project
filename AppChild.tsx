@@ -6,15 +6,18 @@ import {TodoScreen} from "./src/screens/TodoScreen";
 import styled from 'styled-components/native';
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./src/store/store";
+
 import {
     addTodolistTC,
     clearErrorAC,
     deleteTodolistAC,
+    getTodolistsAC,
     hideLoaderAC,
     showErrorAC,
     showLoaderAC,
     updateTodolistAC
 } from "./src/reducers/todolistReducer";
+import {API} from "./src/api/api";
 
 export type TodosType = {
     id: string
@@ -24,6 +27,15 @@ export type TodosType = {
 export default function AppChild() {
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        API.getTodolists()
+            .then(res => {
+                dispatch(getTodolistsAC(res.data))
+            })
+    }, [])
+
+
     const arrayTodolists = useSelector<AppRootStateType, Array<TodosType>>(
         state => state.todolist["todos"]
     )
