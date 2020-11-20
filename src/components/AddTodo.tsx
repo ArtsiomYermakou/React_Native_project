@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { Alert, Keyboard} from "react-native";
+import {Alert, Keyboard} from "react-native";
 import styled from "styled-components/native";
 import {THEME} from "../theme";
 import {AntDesign} from '@expo/vector-icons';

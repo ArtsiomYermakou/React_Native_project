@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Alert, ScrollView} from 'react-native';
 import {NavBar} from "./src/components/Navbar";
 import {MainScreen} from "./src/screens/MainScreen";
@@ -7,7 +7,7 @@ import styled from 'styled-components/native';
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./src/store/store";
 import {
-    addTodolistAC,
+    addTodolistTC,
     clearErrorAC,
     deleteTodolistAC,
     hideLoaderAC,
@@ -22,6 +22,7 @@ export type TodosType = {
 }
 
 export default function AppChild() {
+
     const dispatch = useDispatch();
     const arrayTodolists = useSelector<AppRootStateType, Array<TodosType>>(
         state => state.todolist["todos"]
@@ -44,15 +45,7 @@ export default function AppChild() {
     const [todoId, setTodoId] = useState<string | null>(null);
 
     const addTodo = async (title: string) => {
-
-        const response = await fetch("https://react-native-testapi.firebaseio.com/todos.json", {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({title})
-        })
-        const data = await response.json()
-        dispatch(addTodolistAC(data.name, title))
-
+        dispatch(addTodolistTC(title))
     }
 
     const removeTodo = (id: string) => {
