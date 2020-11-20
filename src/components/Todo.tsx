@@ -5,20 +5,20 @@ import styled from "styled-components/native";
 
 type TodoPropsType = {
     todolist: TodosType
-    onRemove: (id: string) => void
+    onRemove?: (id: string) => void
     onOpen: (id: string) => void
 }
 
 export const Todo: React.FC<TodoPropsType> = ({onOpen, todolist, onRemove}) => {
 
-    const longPressHandler = () => {
-        onRemove(todolist.id)
-    }
+    // const longPressHandler = () => {
+    //     onRemove(todolist.id)
+    // }
 
     return (
         <TouchableOpacity activeOpacity={0.5}
                           onPress={() => onOpen(todolist.id)}
-                          onLongPress={longPressHandler}>
+                          onLongPress={() => {}}>
             <TodoContainer>
                 <TextTitle>{todolist.title}</TextTitle>
             </TodoContainer>

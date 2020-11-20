@@ -1,11 +1,13 @@
 import React, {useState} from "react";
-import {Button, Dimensions} from "react-native"
+import {Dimensions} from "react-native"
 import styled from "styled-components/native";
 import {THEME} from "../theme"
 import {AppCard} from "../components/ui/AppCard";
 import {EditModal} from "../components/EditModal";
 import {AppButton} from "../components/ui/AppButton";
-import {FontAwesome, AntDesign} from "@expo/vector-icons"
+import {AntDesign, FontAwesome} from "@expo/vector-icons"
+import {useDispatch} from "react-redux";
+import {clearErrorAC, hideLoaderAC, showErrorAC, showLoaderAC} from "../reducers/todolistReducer";
 
 type TodoScreenPropsType = {
     goBack: () => void
@@ -14,7 +16,7 @@ type TodoScreenPropsType = {
     onSave: any
 }
 
-export const TodoScreen: React.FC<TodoScreenPropsType> = ({goBack, todo, onRemove, onSave}) => {
+export const TodoScreen: React.FC<TodoScreenPropsType> = ({goBack, todo, onSave, onRemove}) => {
 
     const [modal, setModal] = useState(false);
 

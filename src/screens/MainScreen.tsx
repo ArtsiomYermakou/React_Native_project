@@ -2,9 +2,9 @@ import React, {useEffect, useState} from "react";
 import {Dimensions, FlatList, View} from "react-native"
 import AddTodo from "../components/AddTodo";
 import Todo from "../components/Todo";
-import {TodosType} from "../../App";
 import styled from "styled-components/native";
 import {THEME} from "../theme";
+import {TodosType} from "../../AppChild";
 
 type MainScreenPropsType = {
     addTodo: (title: string) => void
@@ -13,7 +13,7 @@ type MainScreenPropsType = {
     openTodo: (id: string) => void
 }
 
-export const MainScreen: React.FC<MainScreenPropsType> = ({openTodo, addTodo, todos, removeTodo}) => {
+export const MainScreen: React.FC<MainScreenPropsType> = ({openTodo, addTodo, todos}) => {
 
     const [deviceWidth, setDeviceWidth] = useState(Dimensions.get("window").width - THEME.PADDING_HORIZONTAL * 2)
 
@@ -35,7 +35,7 @@ export const MainScreen: React.FC<MainScreenPropsType> = ({openTodo, addTodo, to
             data={todos}
             renderItem={({item}) => (<Todo onOpen={openTodo}
                                            todolist={item}
-                                           onRemove={removeTodo}/>)}
+            />)}
         />
     </View>
 

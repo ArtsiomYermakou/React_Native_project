@@ -9,7 +9,7 @@ type AppButtonPropsType = {
     color?: string
 }
 
-export const AppButton: React.FC<AppButtonPropsType> = ({color = THEME.MAIN_COLOR, onPress, children}) => {
+export const AppButton: React.FC<AppButtonPropsType> = ({color = THEME.MAIN_COLOR, onPress, children, }) => {
 
     return (
         <TouchableOpacity onPress={onPress}>

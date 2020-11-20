@@ -7,7 +7,7 @@ import {AppButton} from "./ui/AppButton";
 type EditModalPropsType = {
     visible: boolean
     onCancel: () => void
-    value: string
+    value: any
     onSave: any
 }
 
