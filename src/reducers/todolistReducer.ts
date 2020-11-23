@@ -28,13 +28,13 @@ export const todolistReducer = (state: InitialStateType = InitialState, action: 
         case "UPDATE_TODOLIST": {
             return {
                 ...state,
-                // todos: state.todos.map((todo: TodosType) => {
-                //         if (todo.id === action.title) {
-                //             todo.title = action.title
-                //         }
-                //         return todo;
-                //     }
-                // )
+                todos: state.todos.map((todo: TodosType) => {
+                        if (todo.id === action.title) {
+                            todo.title = action.title
+                        }
+                        return todo;
+                    }
+                )
             }
         }
         case "IS_LOADER": {
@@ -117,7 +117,7 @@ export const updateTodolistTC = (id: string, title: string) => {
 export const deleteTodolistTC = (id: string) => {
     return (dispatch: Dispatch) => {
         API.deleteTodolist(id)
-            .then(res => dispatch(deleteTodolistAC(id)))
+            .then(() => dispatch(deleteTodolistAC(id)))
     }
 }
 

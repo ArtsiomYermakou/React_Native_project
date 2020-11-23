@@ -28,7 +28,7 @@ export default function AppChild() {
 
     const fetchTodos = useCallback(() => {
         dispatch(getTodolistTC())
-    }, [])
+    }, [1000])
 
     const [todoId, setTodoId] = useState<string | null>(null);
 
