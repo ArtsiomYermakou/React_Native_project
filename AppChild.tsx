@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Alert, ScrollView} from 'react-native';
 import {NavBar} from "./src/components/Navbar";
 import {MainScreen} from "./src/screens/MainScreen";
@@ -11,30 +11,26 @@ import {
     addTodolistTC,
     clearErrorAC,
     deleteTodolistAC,
-    getTodolistsAC,
+    getTodolistTC,
     hideLoaderAC,
     showErrorAC,
     showLoaderAC,
     updateTodolistAC
 } from "./src/reducers/todolistReducer";
-import {API} from "./src/api/api";
 
 export type TodosType = {
     id: string
     title: string
 }
 
+
 export default function AppChild() {
 
     const dispatch = useDispatch();
 
     useEffect(() => {
-        API.getTodolists()
-            .then(res => {
-                dispatch(getTodolistsAC(res.data))
-            })
+        fetchTodos()
     }, [])
-
 
     const arrayTodolists = useSelector<AppRootStateType, Array<TodosType>>(
         state => state.todolist["todos"]
@@ -54,9 +50,13 @@ export default function AppChild() {
         dispatch(clearErrorAC())
     }
 
+    const fetchTodos = useCallback(() => {
+        dispatch(getTodolistTC())
+    }, [])
+
     const [todoId, setTodoId] = useState<string | null>(null);
 
-    const addTodo = async (title: string) => {
+    const addTodo = (title: string) => {
         dispatch(addTodolistTC(title))
     }
 

@@ -1,5 +1,4 @@
 import axios from "axios"
-import {TodosType} from "../../AppChild";
 
 const settings = {}
 const instance = axios.create({
@@ -16,10 +15,10 @@ export type AddTodolist = {
 
 export const API = {
     addTodolist(data: AddTodolist) {
-        return instance.post("", {data});
+        return instance.post("", data);
     },
     getTodolists() {
-        return instance.get<Array<TodosType>>("")
+        return instance.get("");
     }
     // me(){
     //     const promise = instance.get<ResponseType<AuthMeType>>("auth/me");

@@ -13,8 +13,8 @@ const InitialState = {
 
 export const todolistReducer = (state: InitialStateType = InitialState, action: ActionTypes) => {
     switch (action.type) {
-        case "GET_TODOLISTS":
-            return {...state, todos: action}
+        // case "GET_TODOLISTS":
+        //     return {...state, todos: action}
         case "ADD_TODOLIST":
             const newTodo = {id: action.id, title: action.title};
             return {
@@ -51,7 +51,7 @@ export const todolistReducer = (state: InitialStateType = InitialState, action: 
             return {...state, error: action.error}
         }
         case "FETCH_TODOS": {
-            return {...state.todos}
+            return {...state, todos: action.todos}
         }
         default: {
             return state;
@@ -84,8 +84,8 @@ export const clearErrorAC = () => (
 export const showErrorAC = (error: string) => (
     {type: "SHOW_ERROR", error} as const
 )
-export const fetchTodosAC = ({todos: {}}) => (
-    {type: "FETCH_TODOS"} as const
+export const fetchTodosAC = (todos: any) => (
+    {type: "FETCH_TODOS", todos} as const
 )
 
 //TC
@@ -94,23 +94,23 @@ export const addTodolistTC = (title: string) => {
     return (dispatch: Dispatch) => {
         API.addTodolist({title})
             .then(res => {
-                const id = res.data
-                dispatch(addTodolistAC(id, title))
-                console.log(res.data)
+                const id = res.data.name;
+                dispatch(addTodolistAC(id, title));
             })
 
     }
 }
 
-// export const getTodolistTC = () => {
-//     return (dispatch: Dispatch) => {
-//         API.addTodolistAC()
-//             .then(res => {
-//                 dispatch(getTodolistsAC(res.data))
-//             })
-//
-//     }
-// }
+export const getTodolistTC = () => {
+    return (dispatch: Dispatch) => {
+        API.getTodolists()
+            .then(res => {
+                const todos = Object.keys(res.data).map(key => ({...res.data[key], id: key}));
+                console.log(todos)
+                dispatch(fetchTodosAC(todos));
+            })
+    }
+}
 
 export type addTodolistActionType = ReturnType<typeof addTodolistAC>
 export type deleteTodolistActionType = ReturnType<typeof deleteTodolistAC>
