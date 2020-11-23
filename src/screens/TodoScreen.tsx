@@ -6,14 +6,12 @@ import {AppCard} from "../components/ui/AppCard";
 import {EditModal} from "../components/EditModal";
 import {AppButton} from "../components/ui/AppButton";
 import {AntDesign, FontAwesome} from "@expo/vector-icons"
-import {useDispatch} from "react-redux";
-import {clearErrorAC, hideLoaderAC, showErrorAC, showLoaderAC} from "../reducers/todolistReducer";
 
 type TodoScreenPropsType = {
     goBack: () => void
     todo: any
     onRemove: (id: string) => void
-    onSave: any
+    onSave: (id: string, title: string) => void
 }
 
 export const TodoScreen: React.FC<TodoScreenPropsType> = ({goBack, todo, onSave, onRemove}) => {

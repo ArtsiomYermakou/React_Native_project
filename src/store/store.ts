@@ -3,10 +3,9 @@ import {
     addTodolistActionType,
     clearErrorActionType,
     deleteTodolistActionType,
-    fetchTodosActionType, getTodolistsActionType,
-    hideLoaderActionType,
+    fetchTodosActionType,
+    isLoaderActionType,
     showErrorActionType,
-    showLoaderActionType,
     todolistReducer,
     updateTodolistActionType
 } from "../reducers/todolistReducer";
@@ -23,9 +22,7 @@ export type AppRootStateType = ReturnType<typeof reducers>;
 export type ActionTypes = addTodolistActionType
     | deleteTodolistActionType
     | updateTodolistActionType
-    | showLoaderActionType
-    | hideLoaderActionType
+    | isLoaderActionType
     | clearErrorActionType
     | showErrorActionType
-    | fetchTodosActionType
-    | getTodolistsActionType;
+    | fetchTodosActionType;

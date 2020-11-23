@@ -3,6 +3,7 @@ import {TodosType} from "../../AppChild";
 import {Dispatch} from "redux";
 import {API} from "../api/api";
 
+
 type InitialStateType = typeof InitialState;
 
 const InitialState = {
@@ -13,8 +14,6 @@ const InitialState = {
 
 export const todolistReducer = (state: InitialStateType = InitialState, action: ActionTypes) => {
     switch (action.type) {
-        // case "GET_TODOLISTS":
-        //     return {...state, todos: action}
         case "ADD_TODOLIST":
             const newTodo = {id: action.id, title: action.title};
             return {
@@ -29,20 +28,17 @@ export const todolistReducer = (state: InitialStateType = InitialState, action: 
         case "UPDATE_TODOLIST": {
             return {
                 ...state,
-                todos: state.todos.map((todo: TodosType) => {
-                        if (todo.id === action.id) {
-                            todo.title = action.title
-                        }
-                        return todo;
-                    }
-                )
+                // todos: state.todos.map((todo: TodosType) => {
+                //         if (todo.id === action.title) {
+                //             todo.title = action.title
+                //         }
+                //         return todo;
+                //     }
+                // )
             }
         }
-        case "SHOW_LOADER": {
-            return {...state, loading: true}
-        }
-        case "HIDE_LOADER": {
-            return {...state, loading: false}
+        case "IS_LOADER": {
+            return {...state, loading: action.loading}
         }
         case "CLEAR_ERROR": {
             return {...state, error: null}
@@ -60,23 +56,17 @@ export const todolistReducer = (state: InitialStateType = InitialState, action: 
 }
 
 //AC
-export const getTodolistsAC = (todos: Array<TodosType>) => (
-    {type: "GET_TODOLISTS", todos} as const
-)
 export const addTodolistAC = (id: string, title: string) => (
     {type: "ADD_TODOLIST", id, title} as const
 )
 export const deleteTodolistAC = (id: string) => (
     {type: "REMOVE_TODOLIST", id} as const
 )
-export const updateTodolistAC = (id: string, title: string) => (
-    {type: "UPDATE_TODOLIST", id, title} as const
+export const updateTodolistAC = (title: string) => (
+    {type: "UPDATE_TODOLIST", title} as const
 )
-export const showLoaderAC = (loading: boolean) => (
-    {type: "SHOW_LOADER", loading} as const
-)
-export const hideLoaderAC = (loading: boolean) => (
-    {type: "HIDE_LOADER", loading} as const
+export const isLoaderAC = (loading: boolean) => (
+    {type: "IS_LOADER", loading} as const
 )
 export const clearErrorAC = () => (
     {type: "CLEAR_ERROR"} as const
@@ -97,27 +87,44 @@ export const addTodolistTC = (title: string) => {
                 const id = res.data.name;
                 dispatch(addTodolistAC(id, title));
             })
-
     }
 }
 
 export const getTodolistTC = () => {
     return (dispatch: Dispatch) => {
+        dispatch(isLoaderAC(true));
         API.getTodolists()
             .then(res => {
                 const todos = Object.keys(res.data).map(key => ({...res.data[key], id: key}));
-                console.log(todos)
                 dispatch(fetchTodosAC(todos));
             })
+            .catch(error => {
+                dispatch(showErrorAC(`${error}`));
+            })
+            .finally(() => dispatch(isLoaderAC(false)));
+    }
+}
+
+export const updateTodolistTC = (id: string, title: string) => {
+    return (dispatch: Dispatch) => {
+        API.updateTodo(id, title)
+            .then(res => {
+                dispatch(updateTodolistAC(res.data))
+            })
+    }
+}
+
+export const deleteTodolistTC = (id: string) => {
+    return (dispatch: Dispatch) => {
+        API.deleteTodolist(id)
+            .then(res => dispatch(deleteTodolistAC(id)))
     }
 }
 
 export type addTodolistActionType = ReturnType<typeof addTodolistAC>
 export type deleteTodolistActionType = ReturnType<typeof deleteTodolistAC>
 export type updateTodolistActionType = ReturnType<typeof updateTodolistAC>
-export type showLoaderActionType = ReturnType<typeof showLoaderAC>
-export type hideLoaderActionType = ReturnType<typeof hideLoaderAC>
+export type isLoaderActionType = ReturnType<typeof isLoaderAC>
 export type clearErrorActionType = ReturnType<typeof clearErrorAC>
 export type showErrorActionType = ReturnType<typeof showErrorAC>
 export type fetchTodosActionType = ReturnType<typeof fetchTodosAC>
-export type getTodolistsActionType = ReturnType<typeof getTodolistsAC>

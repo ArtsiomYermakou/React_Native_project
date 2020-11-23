@@ -7,22 +7,12 @@ import styled from 'styled-components/native';
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./src/store/store";
 
-import {
-    addTodolistTC,
-    clearErrorAC,
-    deleteTodolistAC,
-    getTodolistTC,
-    hideLoaderAC,
-    showErrorAC,
-    showLoaderAC,
-    updateTodolistAC
-} from "./src/reducers/todolistReducer";
+import {addTodolistTC, deleteTodolistTC, getTodolistTC, updateTodolistTC} from "./src/reducers/todolistReducer";
 
 export type TodosType = {
     id: string
     title: string
 }
-
 
 export default function AppChild() {
 
@@ -35,20 +25,6 @@ export default function AppChild() {
     const arrayTodolists = useSelector<AppRootStateType, Array<TodosType>>(
         state => state.todolist["todos"]
     )
-
-    const showLoader = () => {
-        dispatch(showLoaderAC(true))
-    }
-    const hideLoader = () => {
-        dispatch(hideLoaderAC(false))
-    }
-
-    const showError = (error: string) => {
-        dispatch(showErrorAC(error))
-    }
-    const clearError = () => {
-        dispatch(clearErrorAC())
-    }
 
     const fetchTodos = useCallback(() => {
         dispatch(getTodolistTC())
@@ -74,7 +50,7 @@ export default function AppChild() {
                     style: "destructive",
                     onPress: () => {
                         setTodoId(null)
-                        dispatch(deleteTodolistAC(id))
+                        dispatch(deleteTodolistTC(id))
                     }
                 }
             ],
@@ -83,7 +59,7 @@ export default function AppChild() {
     }
 
     const updateTodo = (id: string, title: string) => {
-        dispatch(updateTodolistAC(id, title))
+        dispatch(updateTodolistTC(id, title))
     }
 
     let content = <MainScreen
@@ -93,27 +69,33 @@ export default function AppChild() {
         addTodo={addTodo}
         todos={arrayTodolists}
         removeTodo={removeTodo}
+        fetchTodos={fetchTodos}
     />
 
     if (todoId) {
         const selectedTodo = arrayTodolists.find(todo => todo.id === todoId)
         content =
-            <TodoScreen onSave={updateTodo} onRemove={removeTodo} todo={selectedTodo} goBack={() => setTodoId(null)}/>
+            <TodoScreen onSave={updateTodo} onRemove={removeTodo}
+                        todo={selectedTodo} goBack={() => setTodoId(null)}/>
     }
 
     return (
-        <>
+        <AppChildWrapper>
             <NavBar title={"Todo App"}/>
-            <ScrollView>
-                <AppContainer>
+            <AppContainer>
+                <ScrollView>
                     {content}
-                </AppContainer>
-            </ScrollView>
-        </>
+                </ScrollView>
+            </AppContainer>
+        </AppChildWrapper>
 
     );
 }
 
+const AppChildWrapper = styled.View`
+  flex: 1;
+`;
 const AppContainer = styled.View`
-      padding: 30px;
-`
+  padding: 30px;
+  flex: 1;
+`;

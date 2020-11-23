@@ -5,17 +5,31 @@ import Todo from "../components/Todo";
 import styled from "styled-components/native";
 import {THEME} from "../theme";
 import {TodosType} from "../../AppChild";
+import {AppLoader} from "../components/ui/AppLoader";
+import {useSelector} from "react-redux";
+import {AppRootStateType} from "../store/store";
+import {AppButton} from "../components/ui/AppButton";
+
 
 type MainScreenPropsType = {
     addTodo: (title: string) => void
     todos: Array<TodosType>
     removeTodo: (id: string) => void
     openTodo: (id: string) => void
+    fetchTodos: () => void
 }
 
-export const MainScreen: React.FC<MainScreenPropsType> = ({openTodo, addTodo, todos}) => {
+export const MainScreen: React.FC<MainScreenPropsType> = ({openTodo, addTodo, todos, fetchTodos}) => {
 
     const [deviceWidth, setDeviceWidth] = useState(Dimensions.get("window").width - THEME.PADDING_HORIZONTAL * 2)
+
+    const loading = useSelector<AppRootStateType, boolean>(
+        state => state.todolist["loading"]
+    )
+
+    const error = useSelector<AppRootStateType, string>(
+        state => state.todolist["error"]
+    )
 
     useEffect(() => {
         const update = () => {
@@ -27,7 +41,6 @@ export const MainScreen: React.FC<MainScreenPropsType> = ({openTodo, addTodo, to
             Dimensions.removeEventListener("change", update);
         }
     })
-
 
     let content = <View style={{width: deviceWidth}}>
         <FlatList
@@ -45,11 +58,22 @@ export const MainScreen: React.FC<MainScreenPropsType> = ({openTodo, addTodo, to
         </ImageWrapper>
     }
 
+    if (loading) {
+        return <AppLoader/>
+    }
+
+    if (error) {
+        return <Center>
+            <Error>{error}</Error>
+            <AppButton onPress={fetchTodos}>Repeat</AppButton>
+        </Center>
+    }
+
     return (
-        <View>
+        <>
             <AddTodo onSubmit={addTodo}/>
             {content}
-        </View>
+        </>
     )
 }
 
@@ -64,4 +88,14 @@ const ImageCustom = styled.Image`
   width: 100%;
   height: 100%;
   resize-mode: contain;
+`
+
+const Center = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`
+const Error = styled.Text`
+  font-size: 20px;
+  color: ${THEME.DANGER_COLOR};
 `

@@ -2,30 +2,27 @@ import axios from "axios"
 
 const settings = {}
 const instance = axios.create({
-    baseURL: 'https://react-native-testapi.firebaseio.com/todos.json',
+    baseURL: `https://react-native-testapi.firebaseio.com/todos/`,
     ...settings
 })
 
 // api
 
-export type AddTodolist = {
+export type AddTodolistType = {
     title: string
 }
 
-
 export const API = {
-    addTodolist(data: AddTodolist) {
-        return instance.post("", data);
+    addTodolist(data: AddTodolistType) {
+        return instance.post(".json", data);
     },
     getTodolists() {
-        return instance.get("");
+        return instance.get(".json");
+    },
+    updateTodo(id: string, title: string) {
+        return instance.put(`${id}.json`, {title});
+    },
+    deleteTodolist(id: string) {
+        return instance.delete(`${id}.json`)
     }
-    // me(){
-    //     const promise = instance.get<ResponseType<AuthMeType>>("auth/me");
-    //     return promise;
-    // },
-    // logout(){
-    //     const promise = instance.delete<ResponseType>("/auth/login")
-    //     return promise
-    // }
 }
